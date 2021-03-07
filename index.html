@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Forest</title>
+</head>
+<body>
+    <style>
+        *{
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            width: 100%;
+            height: 100vh;
+            background-color:rgba( 248, 231, 188, 0.993 );
+            animation-name: day-to-night;
+            animation-duration: 6s;
+            animation-timing-function: linear;
+            animation-iteration-count: infinite;
+        }
+        @keyframes day-to-night{
+            0%{
+                
+            }
+            75%{
+                background-color: steelblue;
+            }
+            100%{
+                background-color: #000;
+            }
+
+        }
+        @-webkit-keyframes falling-leaf-fall {
+            0% {
+                top: -10%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+        @-webkit-keyframes falling-leaf-shake {
+            0%,
+            100% {
+                -webkit-transform: translateX(0);
+                transform: translateX(0);
+            }
+            50% {
+                -webkit-transform: translateX(80px);
+                transform: translateX(80px);
+            }
+        }
+        @keyframes falling-leaf-fall {
+            0% {
+                top: -10%;
+            }
+            75%{
+                opacity: 100%;
+            }
+            100% {
+                top: 100%;
+            }
+        }
+        @keyframes falling-leaf-shake {
+            0%,
+            100% {
+                transform: translateX(0);
+            }
+            50% {
+                transform: translateX(80px);
+            }
+        }
+        @keyframes falling-leaf-on-ff {
+            0%{
+                opacity: 0;
+            }
+            75%{
+                opacity: 80%;
+            }
+            100%{
+                opacity: 0%;
+            }
+        }
+        @keyframes sun-to-moon{
+            0%{
+                position: absolute;
+				width: 150px;
+				height: 150px;
+				background-color: transparent;
+				border-radius: 50%;	
+            }
+            50%{
+                 
+            }
+            100%{
+                position: absolute;
+				width: 150px;
+				height: 150px;
+				background-color: transparent;
+				border-radius: 50%;
+				box-shadow: 25px 10px 0px 0px #fff; 
+            }
+        }
+        @keyframes sun-move {
+            0%{
+                margin-right: 10px;
+                
+            }
+            25%{
+                margin-left: 80px;
+            }
+            50%{
+                margin-left: 140px;
+                background-color:sandybrown;
+            }
+            75%{
+                margin-left: 220px;
+                background-color: steelblue;
+            }
+            100%{
+                margin-left: 300px;
+                background-color: #000;
+            }
+        }
+        .container{
+            display: flex;
+            border-radius: 100%;
+            width: 400px;
+            height: 400px;
+            background-color: #4CAF50;
+            z-index: 99;
+        }
+        .sun{
+            background-color: #FFEB3B;
+            position: absolute;
+            width: 150px;
+            height: 150px;
+            margin-top: -100px;
+            border-radius: 100%;
+            box-shadow: 2px 2px 50px 20px #FFDB35;
+            animation-name: sun-to-moon, sun-move;
+            animation-duration: 6s, 6s;
+            animation-timing-function: linear, linear;
+            animation-iteration-count: infinite, infinite;
+        }
+        .montain{
+            position: absolute;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 200px 100px;
+            border-color: transparent transparent #BDBDBD transparent;
+        }
+        .montain::after{
+            content: '';
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 100px 200px 0;
+            border-color: transparent transparent #9E9E9E transparent;
+        }
+        .montain#one{
+            margin-top: -100px;
+            margin-left: 70px;
+            transform: scale(1.1);
+        }
+        .montain#two{
+            margin-top: -40px;
+            margin-left: -1px;
+            transform: scale(.8);
+        }
+        .montain#three{
+            margin-top: -50px;
+	        margin-left: 194px;
+        }
+        .montain#four{
+            margin-top: -80px;
+            margin-left: 150px;
+            transform: scale(.7);
+        }
+        .path{
+            position: absolute;
+            margin-top: 50px;
+            margin-left: 155px;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 40px 300px 50px;
+            border-color: transparent transparent lightgreen transparent;
+        }
+        .house{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            position: absolute;
+            width: 180px;
+            height: 120px;
+            background-color: #FFEE58;
+            border-bottom: 30px solid #5D4037;
+            margin-top: 70px;
+            margin-left: 135px;
+            transform: scale(.7);
+        }
+        .house::after{
+            content: '';
+            position: absolute;
+            display: block;
+            width: 60px;
+            height: 40px;
+            background: lightblue;
+            margin-top: 30px;
+            margin-left: 100px;
+            border: 1px solid #9E9E9E;
+        }
+        .door{
+            position: absolute;
+            width: 40px;
+            height: 70px;
+            background: #4E342E;
+            margin-top: 80px;
+            margin-right: 70px;
+        }
+        .door:after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 10px;
+            height: 4px;
+            background: yellow;
+            margin-left: 27px;
+            margin-top: 40px;
+        }
+        .chimney {
+            content: '';
+            position: absolute;
+            display: block;
+            background-color: #3E2723;
+            width: 300px;
+            height: 70px;
+            margin-top: -100px;
+            z-index: 99;
+            margin-left: 150px;
+        }
+        .roof {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 120px 120px 120px;
+            border-color: transparent transparent #3E2723 transparent;
+            margin-left: -5px;
+            margin-top: -200px;
+        }
+        .roof:after {
+            content: '';
+            position: absolute;
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 100px 100px 100px;
+            border-color: transparent transparent #5D4037 transparent;
+            margin-left: -100px;
+            margin-top: 21px;
+        }
+        .tree {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            background: #795548;
+            position: absolute;
+            width: 15px;
+            height: 40px;
+            font-size: 0;
+        }
+        .leaf {
+            display: flex;
+            margin-bottom: 30px;
+        }
+        .leaf:before {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 0 100px 50px;
+            border-color: transparent transparent #388E3C transparent;
+            margin-top: -125px;
+            margin-left: -43px;
+        }
+        .leaf:after {
+            content: '';
+            display: block;
+            width: 0;
+            height: 0;
+            border-style: solid;
+            border-width: 0 50px 100px 0;
+            border-color: transparent transparent #1B5E20 transparent;
+            margin-top: -125px;
+        }
+        .tree#one {
+            margin-top: 150px;
+            margin-left: 44px;
+            transform: scale(.5);
+        }
+        .tree#two {
+            margin-top: 170px;
+            margin-left: 350px;
+            transform: scale(.5);
+        }
+        .tree#three {
+            margin-top: 170px;
+            margin-left: 77px;
+            transform: scale(.5);
+        }
+        .tree#four {
+            margin-top: 145px;
+            margin-left: 300px;
+            transform: scale(.5);
+        }
+        .tree#five {
+            margin-top: 240px;
+            margin-left: 130px;
+            transform: scale(.7);
+        }
+        .tree#six {
+            margin-top: 220px;
+            margin-left: 40px;
+            transform: scale(.6);
+        }
+        .tree#seven {
+            margin-top: 210px;
+            margin-left: 330px;
+            transform: scale(.6);
+        }
+        .tree#eight {
+            margin-top: 240px;
+            margin-left: 257px;
+            transform: scale(.7);
+        }
+        .tree#nine {
+            margin-top: 315px;
+            margin-left: 85px;
+            transform: scale(.8);
+        }
+        .tree#ten {
+            margin-top: 315px;
+            margin-left: 300px;
+            transform: scale(.8);
+        }
+        .falling-leaf {
+            position: fixed;
+            opacity: 0;
+            top: -10%;
+            z-index: 1;
+            -webkit-user-select: none;
+            -moz-user-select: none;
+            -ms-user-select: none;
+            user-select: none;
+            cursor: default;
+            -webkit-animation-name: falling-leaf-fall, falling-leaf-shake, falling-leaf-on-off;
+            -webkit-animation-duration: 6s, 6s, 6s;
+            -webkit-animation-timing-function: linear linear, linear;
+            -webkit-animation-iteration-count: infinite, infinite infinite;
+            animation-name: falling-leaf-fall, falling-leaf-shake, falling-leaf-on-off;
+            animation-duration: 6s, 6s;
+            animation-timing-function: linear, linear, linear;
+            animation-iteration-count: infinite, infinite, infinite;
+        }
+
+        .falling-leaf:nth-of-type(0) {
+            left: 1%;
+            -webkit-animation-delay: 0s, 0s;
+            animation-delay: 0s, 0s;
+        }
+        .falling-leaf:nth-of-type(1) {
+            left: 10%;
+            -webkit-animation-delay: 1s, 1s;
+            animation-delay: 1s, 1s;
+        }
+        .falling-leaf:nth-of-type(2) {
+            left: 20%;
+            -webkit-animation-delay: 6s, 0.5s;
+            animation-delay: 6s, 0.5s;
+        }
+        .falling-leaf:nth-of-type(3) {
+            left: 30%;
+            -webkit-animation-delay: 4s, 2s;
+            animation-delay: 4s, 2s;
+        }
+        .falling-leaf:nth-of-type(4) {
+            left: 40%;
+            -webkit-animation-delay: 2s, 2s;
+            animation-delay: 2s, 2s;
+        }
+        .falling-leaf:nth-of-type(5) {
+            left: 50%;
+            -webkit-animation-delay: 8s, 3s;
+            animation-delay: 8s, 3s;
+        }
+        .falling-leaf:nth-of-type(6) {
+            left: 60%;
+            -webkit-animation-delay: 6s, 2s;
+            animation-delay: 6s, 2s;
+        }
+        .falling-leaf:nth-of-type(7) {
+            left: 70%;
+            -webkit-animation-delay: 2.5s, 1s;
+            animation-delay: 2.5s, 1s;
+        }
+        .falling-leaf:nth-of-type(8) {
+            left: 80%;
+            -webkit-animation-delay: 1s, 0s;
+            animation-delay: 1s, 0s;
+        }
+        .falling-leaf:nth-of-type(9) {
+            left: 90%;
+            -webkit-animation-delay: 3s, 1.5s;
+            animation-delay: 3s, 1.5s;
+        }
+        .falling-leaf:nth-of-type(10) {
+            left: 25%;
+            -webkit-animation-delay: 2s, 0s;
+            animation-delay: 2s, 0s;
+        }
+        .falling-leaf:nth-of-type(11) {
+            left: 65%;
+            -webkit-animation-delay: 4s, 2.5s;
+            animation-delay: 4s, 2.5s;
+        }
+    </style>
+    <div aria-hidden="true">
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+        <div class='falling-leaf'>🍃</div>
+    </div>
+    <div class="container">
+        <div class="sun"></div>
+        <div class="montain" id="one"></div>
+        <div class="montain" id="two"></div>
+        <div class="montain" id="three"></div>
+        <div class="montain" id="four"></div>
+        <div class="path"></div>
+        <div class="house">
+            <div class="chimeny"></div>
+            <div class="roof"></div>
+            <div class="door"></div>
+        </div>
+        <div class="tree" id="one">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="two">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="three">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="four">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="five">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="six">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="seven">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="eight">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="nine">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+        <div class="tree" id="ten">
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+            <div class="leaf"></div>
+        </div>
+    </div>
+</body>
+</html>
